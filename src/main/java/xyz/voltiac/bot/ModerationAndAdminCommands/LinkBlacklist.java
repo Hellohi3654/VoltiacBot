@@ -1,4 +1,4 @@
-package xyz.voltiac.bot;
+package xyz.voltiac.bot.ModerationAndAdminCommands;
 
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
@@ -15,7 +15,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 public class LinkBlacklist {
-    void LinkBlacklist(GatewayDiscordClient client) {
+    public static void LinkBlacklist(GatewayDiscordClient client) {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                     Message m = event.getMessage();
@@ -47,13 +47,14 @@ public class LinkBlacklist {
                                 || messagecontentlowercase.contains(".net") || messagecontentlowercase.contains(".org")) {
                             m.delete(reason).block();
                             assert channel != null;
-                            channel.createEmbed(EmbedCreateSpec -> EmbedCreateSpec.setColor(Color.RED)
-                                    .setTitle("**Message Deleted**")
-                                    .setDescription("Message Sent By " + mention + " Deleted in " + channelmention)
-                                    .addField("**Reason**", reason, false)
-                                    .setFooter(name + "#" + discriminator, pfp)
-                                    .setTimestamp(instant)
-                                    .setColor(Color.BLUE)).block();
+                            channel.createEmbed(EmbedCreateSpec -> {
+                                EmbedCreateSpec.setTitle("**Message Deleted**")
+                                        .setDescription("Message Sent By " + mention + " Deleted in " + channelmention)
+                                        .addField("**Reason**", reason, false)
+                                        .setFooter(name + "#" + discriminator, pfp)
+                                        .setTimestamp(instant)
+                                        .setColor(Color.of(51, 153, 255));
+                            }).block();
                         }
                     }
                 });

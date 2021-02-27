@@ -1,4 +1,4 @@
-package xyz.voltiac.bot;
+package xyz.voltiac.bot.ModerationAndAdminCommands;
 
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 public class MessageLogs {
-    void MessageLogs(GatewayDiscordClient client) {
+    public static void MessageLogs(GatewayDiscordClient client) {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                     Message m = event.getMessage();
@@ -36,12 +36,14 @@ public class MessageLogs {
                     int length = embeds.length();
                     if (channelid.asLong() != blacklistedchannelid && authorid.asLong() != blacklistedauthorid && length == 2) {
                         assert channel != null;
-                        channel.createEmbed(embedCreateSpec -> embedCreateSpec.setTitle("**Message Sent**")
-                                .setDescription("Message Sent In " + cname + " By " + mention)
-                                .addField("**Message Content**", messagecontent, false)
-                                .setFooter(name + "#" + discriminator, pfp)
-                                .setTimestamp(instant)
-                                .setColor(Color.BLUE)).block();
+                        channel.createEmbed(embedCreateSpec -> {
+                            embedCreateSpec.setTitle("**Message Sent**")
+                                    .setDescription("Message Sent In " + cname + " By " + mention)
+                                    .addField("**Message Content**", messagecontent, false)
+                                    .setFooter(name + "#" + discriminator, pfp)
+                                    .setTimestamp(instant)
+                                    .setColor(Color.of(51, 153, 255));
+                        }).block();
                     }
                 });
     }
