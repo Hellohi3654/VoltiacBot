@@ -67,6 +67,11 @@
             <artifactId>istack-commons-runtime</artifactId>
             <version>4.0.0</version>
          </dependency>
+         <dependency>
+            <groupId>com.sun.istack</groupId>
+            <artifactId>istack-commons-tools</artifactId>
+            <version>4.0.0</version>
+         </dependency>
     </dependencies>
 
     <build>
